@@ -1,0 +1,40 @@
+{
+  "name": "fastball",
+  "version": "1.0.0",
+  "description": "A global-hotkey-triggered Electron menubar app for capturing and browsing markdown notes",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^34.0.0",
+    "electron-builder": "^25.0.0"
+  },
+  "build": {
+    "appId": "com.yourname.fastball",
+    "productName": "FastBall",
+    "mac": {
+      "category": "public.app-category.productivity",
+      "extendInfo": {
+        "LSUIElement": true
+      },
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "hardenedRuntime": true
+    },
+    "dmg": {
+      "title": "FastBall"
+    },
+    "files": [
+      "**/*",
+      "!node_modules/**"
+    ],
+    "extraResources": [
+      {
+        "from": "config.json",
+        "to": "config.json"
+      }
+    ]
+  }
+}

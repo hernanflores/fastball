@@ -238,7 +238,7 @@ document.addEventListener('keydown', async (e) => {
     }
 
     // Shift+Cmd+C → clear file
-    if (e.shiftKey && (e.metaKey || e.ctrlKey) && e.key === 'c') {
+    if (e.shiftKey && (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'c') {
       e.preventDefault();
       if (currentNote) {
         await ipcRenderer.invoke('clear-note', currentNote.path);

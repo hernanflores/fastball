@@ -68,7 +68,7 @@ The `.dmg` will appear in the `dist/` folder.
 |---|---|
 | `Esc` | Back to list |
 | `Cmd+W` | Hide window |
-| `Cmd+O` | Open in preferred editor |
+| `Cmd+O` | Open current note in preferred editor |
 | `Shift+Cmd+C` | Clear note content |
 
 ### Capture View

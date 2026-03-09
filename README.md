@@ -1,6 +1,7 @@
 # FastBall
 
 A global-hotkey-triggered macOS menubar app for quick markdown note capture and browsing.
+Gotta Catch 'Em All!
 
 ## Features
 

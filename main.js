@@ -326,6 +326,19 @@ ipcMain.handle('show-open-dialog', async () => {
   }
 });
 
+ipcMain.handle('show-directory-dialog', async () => {
+  isDialogOpen = true;
+  try {
+    const result = await dialog.showOpenDialog(win, {
+      properties: ['openDirectory', 'createDirectory'],
+      title: 'Select Notes Folder',
+    });
+    return result.canceled ? null : result.filePaths[0];
+  } finally {
+    isDialogOpen = false;
+  }
+});
+
 ipcMain.handle('open-notes-folder', () => {
   shell.openPath(config.notesFolder);
 });

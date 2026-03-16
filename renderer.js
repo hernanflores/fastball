@@ -34,6 +34,7 @@ const settingNotesFolder = document.getElementById('setting-notes-folder');
 const settingShortcut = document.getElementById('setting-shortcut');
 const settingEditor = document.getElementById('setting-editor');
 const browseBtn = document.getElementById('browse-btn');
+const browseFolderBtn = document.getElementById('browse-folder-btn');
 const settingsError = document.getElementById('settings-error');
 const settingsSave = document.getElementById('settings-save');
 
@@ -307,6 +308,11 @@ settingsBackBtn.addEventListener('click', () => showView('list'));
 browseBtn.addEventListener('click', async () => {
   const filePath = await ipcRenderer.invoke('show-open-dialog');
   if (filePath) settingEditor.value = filePath;
+});
+
+browseFolderBtn.addEventListener('click', async () => {
+  const folderPath = await ipcRenderer.invoke('show-directory-dialog');
+  if (folderPath) settingNotesFolder.value = folderPath;
 });
 
 settingsSave.addEventListener('click', async () => {

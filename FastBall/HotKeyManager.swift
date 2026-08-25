@@ -21,21 +21,24 @@ final class HotKeyManager {
     /// Returns false if the combination is unparseable or already taken by another app.
     @discardableResult
     func register(_ accelerator: String, handler: @escaping () -> Void) -> Bool {
-        unregister()
         guard let parsed = Accelerator.parse(accelerator) else { return false }
 
-        self.handler = handler
-        var ref: EventHotKeyRef?
+        var newRef: EventHotKeyRef?
         let hotKeyID = EventHotKeyID(signature: signature, id: 1)
         let status = RegisterEventHotKey(
             parsed.keyCode, parsed.carbonModifiers, hotKeyID,
-            GetEventDispatcherTarget(), 0, &ref
+            GetEventDispatcherTarget(), 0, &newRef
         )
-        guard status == noErr, ref != nil else {
-            self.handler = nil
+        guard status == noErr, newRef != nil else {
             return false
         }
-        hotKeyRef = ref
+
+        // Commit the new registration only after success
+        if let oldRef = hotKeyRef {
+            UnregisterEventHotKey(oldRef)
+        }
+        hotKeyRef = newRef
+        self.handler = handler
         return true
     }
 

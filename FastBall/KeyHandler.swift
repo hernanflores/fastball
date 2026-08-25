@@ -70,8 +70,9 @@ struct KeyHandler {
                 return nil
             }
             if command && event.keyCode == Self.keyReturn {
-                state.saveCapture(state.pendingText)
-                hide()
+                if state.saveCapture(state.pendingText) {
+                    hide()
+                }
                 return nil
             }
             return event

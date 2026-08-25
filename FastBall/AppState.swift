@@ -22,7 +22,7 @@ final class AppState: ObservableObject {
     @Published var settingsError: String?
 
     @Published private(set) var config: Config
-    private(set) var store: NoteStore
+    var store: NoteStore
 
     /// Wired up by the AppDelegate.
     var hideWindow: () -> Void = {}
@@ -93,9 +93,15 @@ final class AppState: ObservableObject {
         editorText = ""
     }
 
-    func saveCapture(_ text: String) {
-        store.create(content: text)
-        refreshNotes()
+    func saveCapture(_ text: String) -> Bool {
+        do {
+            try store.create(content: text)
+            refreshNotes()
+            return true
+        } catch {
+            settingsError = "Could not save note: \(error.localizedDescription)"
+            return false
+        }
     }
 
     func openCurrentNoteInEditor() {
@@ -143,10 +149,11 @@ final class AppState: ObservableObject {
                 try SMAppService.mainApp.unregister()
             }
             settingsError = nil
+            objectWillChange.send()
         } catch {
             settingsError = "Could not update login item: \(error.localizedDescription)"
+            objectWillChange.send()
         }
-        objectWillChange.send()
     }
 
     // MARK: - Settings

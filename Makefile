@@ -9,16 +9,18 @@ CONTENTS    := $(BUNDLE)/Contents
 BINARY      := $(CONTENTS)/MacOS/$(APP_NAME)
 SOURCES     := $(shell find FastBall -name '*.swift')
 SDK         := $(shell xcrun --show-sdk-path --sdk macosx)
-TARGET      := $(shell uname -m)-apple-macos14.0
-SWIFTFLAGS  := -target $(TARGET) -sdk $(SDK) -O -swift-version 5
+SWIFTFLAGS  := -sdk $(SDK) -O -swift-version 5
 
 .PHONY: all run test clean dmg sign
 
 all: $(BINARY)
 
-$(BINARY): $(SOURCES) Resources-Info.plist
-	@mkdir -p $(CONTENTS)/MacOS $(CONTENTS)/Resources
-	swiftc $(SWIFTFLAGS) -o $@ $(SOURCES)
+$(BINARY): $(SOURCES) Resources-Info.plist entitlements.plist
+	@mkdir -p $(CONTENTS)/MacOS $(CONTENTS)/Resources build/tmp
+	swiftc $(SWIFTFLAGS) -target arm64-apple-macos14.0 -o build/tmp/$(APP_NAME)-arm64 $(SOURCES)
+	swiftc $(SWIFTFLAGS) -target x86_64-apple-macos14.0 -o build/tmp/$(APP_NAME)-x86_64 $(SOURCES)
+	lipo -create -output $@ build/tmp/$(APP_NAME)-arm64 build/tmp/$(APP_NAME)-x86_64
+	@rm -rf build/tmp
 	@cp Resources-Info.plist $(CONTENTS)/Info.plist
 	@printf 'APPL????' > $(CONTENTS)/PkgInfo
 	@$(MAKE) --no-print-directory sign
@@ -28,7 +30,7 @@ $(BINARY): $(SOURCES) Resources-Info.plist
 # login item are both remembered per-signature, so an unsigned rebuild would
 # look like a different app to macOS every time.
 sign:
-	@codesign --force --deep --sign - --entitlements entitlements.plist $(BUNDLE) 2>/dev/null || true
+	@codesign --force --deep --sign - --entitlements entitlements.plist $(BUNDLE)
 
 run: all
 	@pkill -x $(APP_NAME) || true

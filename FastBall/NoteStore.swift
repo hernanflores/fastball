@@ -59,7 +59,7 @@ final class NoteStore {
     /// Creates a note named YYYY-MM-DD-HHmmss.md in local time.
     /// Whitespace-only content is discarded silently, as in the Electron build.
     @discardableResult
-    func create(content: String) -> Note? {
+    func create(content: String) throws -> Note? {
         guard !content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return nil }
         ensureFolder()
 
@@ -78,7 +78,7 @@ final class NoteStore {
             suffix += 1
         }
 
-        try? content.write(to: url, atomically: true, encoding: .utf8)
+        try content.write(to: url, atomically: true, encoding: .utf8)
         return Note(name: name, preview: Self.firstLine(of: url), url: url, mtime: Date())
     }
 

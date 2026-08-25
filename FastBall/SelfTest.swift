@@ -16,11 +16,18 @@ enum SelfTest {
             results.append("\(ok ? "PASS" : "FAIL")  \(label)")
         }
 
+        // Use an isolated temporary directory for test fixtures
+        let testDir = FileManager.default.temporaryDirectory
+            .appendingPathComponent("fastball-selftest-\(ProcessInfo.processInfo.processIdentifier)")
+        try? FileManager.default.createDirectory(at: testDir, withIntermediateDirectories: true)
+        let originalStore = state.store
+        state.store = NoteStore(folder: testDir)
+
         // Seed fixtures so the test doesn't depend on the user's notes folder.
         var fixtures: [Note] = []
         state.refreshNotes()
         while state.notes.count + fixtures.count < 2 {
-            if let note = state.store.create(content: "selftest fixture \(fixtures.count)") {
+            if let note = try? state.store.create(content: "selftest fixture \(fixtures.count)") {
                 fixtures.append(note)
             } else {
                 break
@@ -70,23 +77,28 @@ enum SelfTest {
         check("escape leaves settings", state.route == .list)
 
         let before = state.notes.count
+        let baselineURLs = Set(state.notes.map { $0.url })
         state.beginCapture(with: "selftest note body")
         press(36, characters: "\r", flags: .command)
         check("cmd+return saved and hid", hidden)
         state.refreshNotes()
         check("a new note was written", state.notes.count == before + 1)
 
-        if let created = state.notes.first(where: { $0.preview == "selftest note body" }) {
+        if let created = state.notes.first(where: { !baselineURLs.contains($0.url) }) {
             try? FileManager.default.removeItem(at: created.url)
             results.append("cleaned up \(created.url.lastPathComponent)")
         } else {
             failures += 1
-            results.append("FAIL  created note not found by preview")
+            results.append("FAIL  created note not found by URL")
         }
 
         for fixture in fixtures {
             try? FileManager.default.removeItem(at: fixture.url)
         }
+
+        // Restore original store and clean up test directory
+        state.store = originalStore
+        try? FileManager.default.removeItem(at: testDir)
 
         results.append(failures == 0 ? "\nALL PASSED" : "\n\(failures) FAILED")
         try? results.joined(separator: "\n")

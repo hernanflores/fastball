@@ -148,7 +148,7 @@ Right-click (or Ctrl-click) the menu bar icon for **Open Notes Folder**, **Setti
 
 ## Development
 
-```
+```text
 FastBall/
 ├── main.swift                 NSApplication bootstrap
 ├── AppDelegate.swift          wiring: panel, status item, hotkey, key monitor, edit menu

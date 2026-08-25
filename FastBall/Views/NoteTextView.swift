@@ -35,7 +35,7 @@ struct NoteTextView: NSViewRepresentable {
         if focusOnAppear {
             DispatchQueue.main.async {
                 textView.window?.makeFirstResponder(textView)
-                textView.setSelectedRange(NSRange(location: textView.string.count, length: 0))
+                textView.setSelectedRange(NSRange(location: textView.string.utf16.count, length: 0))
             }
         }
         return scrollView
@@ -46,7 +46,7 @@ struct NoteTextView: NSViewRepresentable {
         if textView.string != text {
             let selected = textView.selectedRange()
             textView.string = text
-            let location = min(selected.location, text.count)
+            let location = min(selected.location, text.utf16.count)
             textView.setSelectedRange(NSRange(location: location, length: 0))
         }
     }

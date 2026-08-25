@@ -25,6 +25,7 @@ struct SettingsView: View {
                         .font(Theme.ui)
                         .onChange(of: launchAtLogin) { _, enabled in
                             state.setLaunchAtLogin(enabled)
+                            launchAtLogin = state.launchesAtLogin
                         }
 
                     if let error = state.settingsError {

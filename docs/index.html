@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FastBall — instant markdown capture for macOS</title>
+<meta name="description" content="A global-hotkey menubar app for quick markdown note capture on macOS. Native Swift, no Electron, no Accessibility permission.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✎</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="mark">✎</div>
+    <h1>FastBall</h1>
+    <p class="tagline">Quick markdown capture, one keystroke away. Gotta Catch&nbsp;'Em&nbsp;All!</p>
+    <p class="sub">
+      A macOS menubar app that puts a note window in front of you from anywhere, and gets
+      out of the way the moment you're done. Native Swift — no Electron, no browser engine,
+      no Accessibility permission.
+    </p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/hernanflores/fastball/releases/latest">Download for macOS</a>
+      <a class="btn" href="https://github.com/hernanflores/fastball">View source</a>
+    </div>
+    <p class="meta">macOS 14+ · Apple silicon &amp; Intel · ~470&nbsp;KB</p>
+  </div>
+</header>
+
+<section class="shot wrap">
+  <img src="img/list.png" alt="The FastBall note list: recent markdown notes with previews and relative timestamps.">
+</section>
+
+<section class="wrap flow">
+  <h2>The whole idea</h2>
+  <ol class="steps">
+    <li><span class="step-n">1</span><b>Press <kbd>Ctrl</kbd><kbd>⌘</kbd><kbd>,</kbd></b> from any app. The window appears centred on whichever screen your cursor is on.</li>
+    <li><span class="step-n">2</span><b>Just start typing.</b> Any printable key drops you into a new note, seeded with what you typed. No “New Note” button to find.</li>
+    <li><span class="step-n">3</span><b>Press <kbd>⌘</kbd><kbd>↩</kbd>.</b> The note is written to disk as plain markdown and the window disappears.</li>
+  </ol>
+</section>
+
+<section class="wrap">
+  <h2>Features</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Type-to-capture</h3>
+      <p>From the list, the first character you press starts the note. <kbd>⌘</kbd><kbd>V</kbd> starts one from the clipboard.</p>
+    </div>
+    <div class="card">
+      <h3>Plain markdown files</h3>
+      <p>Notes are <code>.md</code> files named <code>YYYY-MM-DD-HHmmss.md</code> in a folder you choose. No database, no lock-in — point Obsidian at the same folder.</p>
+    </div>
+    <div class="card">
+      <h3>No Accessibility prompt</h3>
+      <p>The hotkey is registered through Carbon, not an event tap, so macOS grants it without asking you to open System Settings.</p>
+    </div>
+    <div class="card">
+      <h3>Auto-saving editor</h3>
+      <p>Edits are written half a second after you stop typing. <kbd>⌘</kbd><kbd>O</kbd> hands the file to your real editor when you need more room.</p>
+    </div>
+    <div class="card">
+      <h3>Stays out of the way</h3>
+      <p>No Dock icon, no app switcher entry. A <code>✎</code> in the menu bar, and a window that hides itself the instant it loses focus.</p>
+    </div>
+    <div class="card">
+      <h3>Native, and small</h3>
+      <p>AppKit and SwiftUI with zero dependencies. Starts instantly and idles at a few megabytes instead of a few hundred.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>Every view</h2>
+  <div class="gallery">
+    <figure><img src="img/capture.png" alt="Capture view with a new note being typed."><figcaption>Capture</figcaption></figure>
+    <figure><img src="img/editor.png" alt="Editor view showing an existing note."><figcaption>Editor</figcaption></figure>
+    <figure><img src="img/settings.png" alt="Settings view with notes folder, shortcut, editor and launch-at-login."><figcaption>Settings</figcaption></figure>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>Keybindings</h2>
+  <div class="keys">
+    <div>
+      <h3>Global</h3>
+      <dl><dt><kbd>Ctrl</kbd><kbd>⌘</kbd><kbd>,</kbd></dt><dd>Toggle the window</dd></dl>
+    </div>
+    <div>
+      <h3>List</h3>
+      <dl>
+        <dt><kbd>↑</kbd><kbd>↓</kbd></dt><dd>Navigate</dd>
+        <dt><kbd>↩</kbd></dt><dd>Open</dd>
+        <dt>any key</dt><dd>New note</dd>
+        <dt><kbd>⌘</kbd><kbd>V</kbd></dt><dd>New note from clipboard</dd>
+        <dt><kbd>⌘</kbd><kbd>,</kbd></dt><dd>Settings</dd>
+      </dl>
+    </div>
+    <div>
+      <h3>Editor</h3>
+      <dl>
+        <dt><kbd>esc</kbd></dt><dd>Back</dd>
+        <dt><kbd>⌘</kbd><kbd>O</kbd></dt><dd>Open externally</dd>
+        <dt><kbd>⇧</kbd><kbd>⌘</kbd><kbd>C</kbd></dt><dd>Clear</dd>
+        <dt><kbd>⌘</kbd><kbd>W</kbd></dt><dd>Hide</dd>
+      </dl>
+    </div>
+    <div>
+      <h3>Capture</h3>
+      <dl>
+        <dt><kbd>⌘</kbd><kbd>↩</kbd></dt><dd>Save &amp; hide</dd>
+        <dt><kbd>esc</kbd></dt><dd>Discard</dd>
+        <dt><kbd>⌘</kbd><kbd>W</kbd></dt><dd>Hide</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="wrap build">
+  <h2>Build it yourself</h2>
+  <p>Command Line Tools are enough — Xcode is not required.</p>
+<pre><code>git clone https://github.com/hernanflores/fastball
+cd fastball
+make run</code></pre>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>FastBall — <a href="https://github.com/hernanflores/fastball">source on GitHub</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

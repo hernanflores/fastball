@@ -161,6 +161,8 @@ code { font-family: var(--mono); font-size: 0.9em; color: var(--text); }
   color: var(--dim);
 }
 
+.steps p { margin: 0; }
+
 .steps b { color: var(--text); font-weight: 600; }
 
 .step-n {

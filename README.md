@@ -6,7 +6,6 @@ A macOS menubar app that puts a note window in front of you from anywhere, and g
 the way the moment you're done. Native Swift — AppKit + SwiftUI, zero dependencies, a
 ~480 KB binary.
 
-![The FastBall note list](docs/img/list.png)
 
 ## The whole idea
 

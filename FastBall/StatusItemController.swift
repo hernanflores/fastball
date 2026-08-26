@@ -18,7 +18,13 @@ final class StatusItemController: NSObject {
         super.init()
 
         if let button = statusItem.button {
-            button.title = "✎"
+            if let icon = NSImage(named: "MenuBarIcon") {
+                icon.isTemplate = true   // let AppKit tint for light/dark menu bars
+                button.image = icon
+                button.imagePosition = .imageOnly
+            } else {
+                button.title = "✎"   // fallback if the resource is missing
+            }
             button.toolTip = "FastBall"
             button.target = self
             button.action = #selector(handleClick)

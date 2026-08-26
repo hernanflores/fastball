@@ -8,6 +8,8 @@ BUNDLE      := build/$(APP_NAME).app
 CONTENTS    := $(BUNDLE)/Contents
 BINARY      := $(CONTENTS)/MacOS/$(APP_NAME)
 SOURCES     := $(shell find FastBall -name '*.swift')
+ICONSET     := $(wildcard assets/AppIcon.iconset/*)
+RESOURCES   := $(wildcard FastBall/Resources/*)
 SDK         := $(shell xcrun --show-sdk-path --sdk macosx)
 SWIFTFLAGS  := -sdk $(SDK) -O -swift-version 5
 
@@ -15,13 +17,15 @@ SWIFTFLAGS  := -sdk $(SDK) -O -swift-version 5
 
 all: $(BINARY)
 
-$(BINARY): $(SOURCES) Resources-Info.plist entitlements.plist
+$(BINARY): $(SOURCES) Resources-Info.plist entitlements.plist $(ICONSET) $(RESOURCES)
 	@mkdir -p $(CONTENTS)/MacOS $(CONTENTS)/Resources build/tmp
 	swiftc $(SWIFTFLAGS) -target arm64-apple-macos14.0 -o build/tmp/$(APP_NAME)-arm64 $(SOURCES)
 	swiftc $(SWIFTFLAGS) -target x86_64-apple-macos14.0 -o build/tmp/$(APP_NAME)-x86_64 $(SOURCES)
 	lipo -create -output $@ build/tmp/$(APP_NAME)-arm64 build/tmp/$(APP_NAME)-x86_64
 	@rm -rf build/tmp
 	@cp Resources-Info.plist $(CONTENTS)/Info.plist
+	@iconutil -c icns assets/AppIcon.iconset -o $(CONTENTS)/Resources/AppIcon.icns
+	@cp FastBall/Resources/MenuBarIcon.png FastBall/Resources/MenuBarIcon@2x.png $(CONTENTS)/Resources/
 	@printf 'APPL????' > $(CONTENTS)/PkgInfo
 	@$(MAKE) --no-print-directory sign
 	@echo "built $(BUNDLE)"

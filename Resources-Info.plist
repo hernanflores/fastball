@@ -12,6 +12,8 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>FastBall</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
 	<key>CFBundleDisplayName</key>
 	<string>FastBall</string>
 	<key>CFBundlePackageType</key>

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="paperShade" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f6f1e2"></stop>
+      <stop offset="1" stop-color="#e9e2cd"></stop>
+    </linearGradient>
+    <clipPath id="squircle"><rect x="0" y="0" width="1024" height="1024" rx="180" ry="180"></rect></clipPath>
+  </defs>
+  <g clip-path="url(#squircle)">
+    <rect width="1024" height="1024" fill="url(#paperShade)"></rect>
+    <g stroke="#aab4c2" stroke-width="7" opacity="0.7">
+      <line x1="442" y1="242" x2="894" y2="242"></line>
+      <line x1="442" y1="354" x2="894" y2="354"></line>
+      <line x1="442" y1="466" x2="894" y2="466"></line>
+      <line x1="442" y1="577" x2="894" y2="577"></line>
+      <line x1="442" y1="689" x2="894" y2="689"></line>
+      <line x1="442" y1="801" x2="894" y2="801"></line>
+    </g>
+    <line x1="400" y1="47" x2="280" y2="978" stroke="#d98c86" stroke-width="7" opacity="0.8"></line>
+    <path d="M447,28 C279,140 210,419 93,978" fill="none" stroke="#c0392b" stroke-width="19" stroke-linecap="round"></path>
+    <g stroke="#c0392b" stroke-width="16" stroke-linecap="round">
+      <path d="M428,84 L493,56"></path>
+      <path d="M396,168 L465,144"></path>
+      <path d="M358,251 L428,233"></path>
+      <path d="M326,335 L396,316"></path>
+      <path d="M293,419 L363,405"></path>
+      <path d="M265,503 L335,493"></path>
+      <path d="M233,586 L302,577"></path>
+      <path d="M205,670 L275,665"></path>
+      <path d="M177,754 L247,749"></path>
+      <path d="M149,838 L219,838"></path>
+      <path d="M126,921 L195,921"></path>
+    </g>
+    <g transform="translate(511,768) rotate(-56)">
+      <path d="M0,0 L121,-51 L121,51 Z" fill="#ecd9ad"></path>
+      <path d="M0,0 L42,-15 L42,15 Z" fill="#2b2b2b"></path>
+      <rect x="121" y="-51" width="521" height="102" fill="#1f2a44"></rect>
+      <line x1="121" y1="-42" x2="642" y2="-42" stroke="#3a4c78" stroke-width="7"></line>
+      <line x1="121" y1="42" x2="642" y2="42" stroke="#131b30" stroke-width="7"></line>
+      <rect x="642" y="-53.5" width="56" height="107" fill="#d7d9dc"></rect>
+      <line x1="656" y1="-53.5" x2="656" y2="53.5" stroke="#a9acb0" stroke-width="4.5"></line>
+      <line x1="684" y1="-53.5" x2="684" y2="53.5" stroke="#a9acb0" stroke-width="4.5"></line>
+      <rect x="698" y="-53.5" width="93" height="107" rx="23" fill="#d98c86"></rect>
+    </g>
+  </g>
+</svg>

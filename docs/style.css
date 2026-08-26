@@ -67,16 +67,11 @@ code { font-family: var(--mono); font-size: 0.9em; color: var(--text); }
 }
 
 .mark {
-  font-size: 44px;
-  line-height: 1;
   width: 84px;
   height: 84px;
   margin: 0 auto 20px;
-  display: grid;
-  place-items: center;
-  border-radius: 22px;
-  background: var(--bg-elev);
-  border: 1px solid var(--border);
+  display: block;
+  border-radius: 18px;
   box-shadow: 0 12px 40px rgb(0 0 0 / 0.35);
 }
 

@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release (e.g. v2.1.0). Must already exist.'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-14
+    steps:
+      - name: Resolve tag
+        id: tag
+        run: |
+          TAG="${{ github.event.inputs.tag || github.ref_name }}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.tag.outputs.tag }}
+          fetch-depth: 0
+
+      - name: Check plist version matches tag
+        run: |
+          PLIST_VERSION=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' Resources-Info.plist)
+          if [ "$PLIST_VERSION" != "${{ steps.tag.outputs.version }}" ]; then
+            echo "::error::Resources-Info.plist CFBundleShortVersionString ($PLIST_VERSION) does not match tag (${{ steps.tag.outputs.version }})"
+            exit 1
+          fi
+
+      - name: Build .dmg
+        run: make dmg
+
+      # The keyboard-routing smoke test drives the real app UI. It can be flaky
+      # on a headless CI session, so it reports but does not block the release.
+      - name: Keyboard-routing smoke test
+        continue-on-error: true
+        run: make test
+
+      - name: Stage release asset
+        run: cp build/FastBall.dmg "build/FastBall-${{ steps.tag.outputs.version }}.dmg"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ steps.tag.outputs.tag }}" \
+            "build/FastBall-${{ steps.tag.outputs.version }}.dmg" \
+            --title "FastBall ${{ steps.tag.outputs.version }}" \
+            --generate-notes

@@ -1,21 +1,16 @@
 # FastBall icon assets
 
 ## App icon
-`AppIcon.iconset/` — drop-in for `iconutil`. From the repo root:
+`AppIcon.iconset/` — drop-in for `iconutil`. The Makefile's build recipe automatically generates and packages `AppIcon.icns` into the app bundle at `Resources/AppIcon.icns` via:
 
 ```
-iconutil -c icns assets/AppIcon.iconset -o FastBall/AppIcon.icns
+@iconutil -c icns assets/AppIcon.iconset -o $(CONTENTS)/Resources/AppIcon.icns
 ```
 
-Then in `Resources-Info.plist` add:
+In `Resources-Info.plist`, add:
 ```xml
 <key>CFBundleIconFile</key>
 <string>AppIcon</string>
-```
-
-And in the Makefile's build recipe, after copying `Resources-Info.plist`, add:
-```
-@iconutil -c icns assets/AppIcon.iconset -o $(CONTENTS)/Resources/AppIcon.icns
 ```
 
 ## Menu bar icon
